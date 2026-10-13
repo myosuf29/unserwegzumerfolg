@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#14111C">
 <title>Unser Weg zum Erfolg</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Unser Weg">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;500;600;700;800&display=swap">
@@ -169,6 +176,19 @@ footer{text-align:center;color:var(--muted);font-size:12.5px}
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .backup{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .backup .btn{flex:1 1 160px}
+.sync-pill{display:inline-flex;align-items:center;gap:7px;margin-top:6px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+.sync-pill i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.sync-pill[data-state="ok"] i{background:var(--ok)}
+.sync-pill[data-state="busy"] i{background:var(--gold);animation:pulse 1s infinite}
+.sync-pill[data-state="err"] i,.sync-pill[data-state="off"] i{background:var(--rose)}
+@keyframes pulse{50%{opacity:.3}}
+.nudge{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.nudge span{flex:1 1 260px}
+.nudge .btn{min-height:40px;padding:9px 16px}
+.sync-steps{display:grid;gap:12px}
+.sync-steps ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
+.sync-steps a{color:var(--rose);font-weight:700}
+.sync-steps code{font-size:13px;background:var(--surface-2);padding:1px 5px;border-radius:5px}
 
 @media (max-width:820px){.cols{grid-template-columns:1fr}}
 @media (max-width:620px){
@@ -196,10 +216,15 @@ footer{text-align:center;color:var(--muted);font-size:12.5px}
     <div class="total">
       <div class="eyebrow">Insgesamt gespart</div>
       <b class="num" id="grand">0 €</b>
+      <button type="button" class="sync-pill" id="syncPill" data-state="off"><i></i><span id="syncPillText">Nur auf diesem Gerät</span></button>
     </div>
   </header>
 
   <div class="banner" id="banner" hidden></div>
+  <div class="banner nudge" id="nudge" hidden>
+    <span>Deine Einträge sind gerade nur auf diesem Gerät. Verbinde einmal alle Geräte, dann siehst du überall dasselbe.</span>
+    <button class="btn" type="button" id="nudgeBtn">Geräte verbinden</button>
+  </div>
 
   <section class="card hero" aria-labelledby="goalName">
     <div class="ring">
@@ -288,6 +313,33 @@ footer{text-align:center;color:var(--muted);font-size:12.5px}
         <button class="more" id="more" type="button" hidden>Mehr anzeigen</button>
       </section>
 
+      <section class="card panel" id="syncCard" aria-labelledby="syncTitle">
+        <div class="panel-head"><h3 id="syncTitle">Alle Geräte verbinden</h3><span class="eyebrow" id="syncWho"></span></div>
+
+        <div id="syncOff" class="sync-steps">
+          <p class="stage-desc" style="margin:0">Damit Computer, Handy und iPad dieselben Einträge zeigen, speichert die Seite eure Daten in einer privaten, versteckten Notiz (Gist) in deinem GitHub-Konto. Das musst du auf jedem Gerät nur einmal machen.</p>
+          <ol>
+            <li>Öffne <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=Unser%20Weg%20Sync" target="_blank" rel="noopener">diesen Link zu GitHub</a> und melde dich an.</li>
+            <li>Bei <b>Expiration</b> „No expiration“ wählen. Das Häkchen bei <b>gist</b> ist schon gesetzt, sonst nichts anhaken.</li>
+            <li>Ganz unten auf <b>Generate token</b> tippen und den Schlüssel (fängt mit <code>ghp_</code> an) kopieren.</li>
+            <li>Hier einfügen und auf <b>Verbinden</b> tippen. Auf den anderen Geräten fügst du denselben Schlüssel ein.</li>
+          </ol>
+          <div class="set-row">
+            <div class="field" style="flex:1 1 220px;width:auto"><label for="tokenIn">GitHub-Schlüssel</label><input type="password" id="tokenIn" autocomplete="off" spellcheck="false" placeholder="ghp_…"></div>
+            <button class="btn" type="button" id="connectBtn">Verbinden</button>
+          </div>
+          <p class="stage-desc" style="margin:0">Bewahr den Schlüssel gut auf, z. B. in deinen Notizen. Er darf nur Gists bearbeiten, sonst nichts in deinem Konto.</p>
+        </div>
+
+        <div id="syncOn" hidden>
+          <div class="lohn-status ok" id="syncInfo">Verbunden</div>
+          <div class="backup">
+            <button class="btn ghost" type="button" id="syncNowBtn">Jetzt abgleichen</button>
+            <button class="btn ghost" type="button" id="disconnectBtn">Dieses Gerät trennen</button>
+          </div>
+        </div>
+      </section>
+
       <section class="card panel" id="settingsCard">
         <details class="settings">
           <summary>Einstellungen</summary>
@@ -297,7 +349,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px}
           </div>
           <p class="stage-desc" style="margin:10px 0 0">Gilt für neue Einträge. Bereits eingetragene Stunden behalten ihren Betrag.</p>
           <div class="eyebrow" style="margin-top:20px">Sicherung</div>
-          <p class="stage-desc" style="margin:6px 0 0">Deine Daten liegen nur in diesem Browser. Lade ab und zu eine Sicherung herunter. Mit „Sicherung laden“ holst du sie auf ein anderes Gerät oder nach dem Löschen des Browsers zurück.</p>
+          <p class="stage-desc" style="margin:6px 0 0">Zusätzlich zum Abgleich kannst du ab und zu eine Sicherung als Datei herunterladen. Mit „Sicherung laden“ holst du sie wieder zurück.</p>
           <div class="backup">
             <button class="btn ghost" type="button" id="exportBtn">Sicherung herunterladen</button>
             <button class="btn ghost" type="button" id="importBtn">Sicherung laden</button>
@@ -350,16 +402,135 @@ function hoursBetween(a,b){
   return Math.round(m/60*100)/100;
 }
 
-// ---- storage: this browser only (localStorage) ----
+// ---- storage: this browser (localStorage), mirrored to a secret GitHub gist when connected ----
 const LKEY='unser-weg-v1';
-let storageOk = true;
-function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||'{}'); entries=Array.isArray(d.entries)?d.entries:[]; settings={...settings,...(d.settings||{})}; }catch(e){ storageOk=false; } }
-function saveLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify({entries,settings})); }catch(e){ storageOk=false; throw e; } }
+let storageOk = true, deleted = [], settingsAt = 0;
+function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||'{}'); entries=Array.isArray(d.entries)?d.entries:[]; settings={...settings,...(d.settings||{})}; deleted=Array.isArray(d.deleted)?d.deleted:[]; settingsAt=d.settingsAt||0; }catch(e){ storageOk=false; } }
+function saveLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify(snapshot())); }catch(e){ storageOk=false; throw e; } }
+const snapshot = () => ({entries,settings,deleted,settingsAt});
 const newId = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 
-async function addEntry(e){ entries.push({...e,id:newId()}); saveLocal(); render(); }
-async function removeEntry(id){ entries=entries.filter(x=>x.id!==id); saveLocal(); render(); }
-async function saveSettings(patch){ settings={...settings,...patch}; saveLocal(); render(); }
+async function addEntry(e){ entries.push({...e,id:newId()}); saveLocal(); render(); scheduleSync(); }
+async function removeEntry(id){ entries=entries.filter(x=>x.id!==id); if(!deleted.includes(id)) deleted.push(id); saveLocal(); render(); scheduleSync(); }
+async function saveSettings(patch){ settings={...settings,...patch}; settingsAt=Date.now(); saveLocal(); render(); scheduleSync(); }
+
+// Union of entries by id; deletions win; newest settings win.
+function merge(a,b){
+  const del=new Set([...(a.deleted||[]),...(b.deleted||[])]);
+  const map=new Map();
+  for(const e of [...(b.entries||[]),...(a.entries||[])]) if(e && e.id && e.date && !del.has(e.id)) map.set(e.id,e);
+  const sa=a.settingsAt||0, sb=b.settingsAt||0;
+  const s = sb>sa ? b.settings : a.settings;
+  return {entries:[...map.values()].sort((x,y)=>(x.createdAt||0)-(y.createdAt||0)||(x.id<y.id?-1:1)), deleted:[...del].sort(), settings:{rate:10,jobFound:false,...(s||{})}, settingsAt:Math.max(sa,sb)};
+}
+const canon = d => JSON.stringify(merge(d,{}));
+
+// ---- sync via GitHub gist ----
+const SKEY='unser-weg-sync', GIST_FILE='unser-weg-daten.json', GIST_DESC='Unser Weg – Daten (bitte nicht löschen)';
+let sync = {}; try{ sync=JSON.parse(localStorage.getItem(SKEY)||'{}'); }catch(e){}
+const saveSync = () => { try{ localStorage.setItem(SKEY, JSON.stringify(sync)); }catch(e){} };
+let syncing=false, syncAgain=false, syncTimer=null, lastSyncAt=null, syncError='';
+
+async function gh(path, opts={}){
+  const headers={'Accept':'application/vnd.github+json','Authorization':'Bearer '+sync.token};
+  if(opts.body) headers['Content-Type']='application/json';
+  const r=await fetch('https://api.github.com'+path,{...opts,headers,cache:'no-store'});
+  if(!r.ok){ const err=new Error('GitHub '+r.status); err.status=r.status; throw err; }
+  return r.json();
+}
+async function findGist(){
+  for(let page=1; page<=10; page++){
+    const list=await gh('/gists?per_page=100&page='+page);
+    const g=list.find(g=>g.files && g.files[GIST_FILE]);
+    if(g) return g.id;
+    if(list.length<100) return null;
+  }
+  return null;
+}
+async function readRemote(){
+  const g=await gh('/gists/'+sync.gistId);
+  const f=g.files && g.files[GIST_FILE];
+  if(!f) return {};
+  let txt=f.content;
+  if(f.truncated) txt=await (await fetch(f.raw_url,{cache:'no-store'})).text();
+  try{ return JSON.parse(txt||'{}'); }catch(e){ return {}; }
+}
+const writeRemote = data => gh('/gists/'+sync.gistId,{method:'PATCH',body:JSON.stringify({files:{[GIST_FILE]:{content:JSON.stringify(data,null,1)}}})});
+
+async function syncNow(){
+  if(!sync.token) return;
+  if(syncing){ syncAgain=true; return; }
+  syncing=true; syncError=''; renderSync();
+  try{
+    if(!sync.gistId){
+      sync.gistId = await findGist();
+      if(!sync.gistId){
+        const g=await gh('/gists',{method:'POST',body:JSON.stringify({description:GIST_DESC,public:false,files:{[GIST_FILE]:{content:JSON.stringify(merge(snapshot(),{}),null,1)}}})});
+        sync.gistId=g.id;
+      }
+      saveSync();
+    }
+    const remote=await readRemote();
+    const before=canon(snapshot());
+    const m=merge(snapshot(),remote);
+    if(JSON.stringify(m)!==before){
+      entries=m.entries; deleted=m.deleted; settings=m.settings; settingsAt=m.settingsAt;
+      try{ saveLocal(); }catch(e){}
+      render();
+    }
+    if(JSON.stringify(m)!==canon(remote)) await writeRemote(m);
+    lastSyncAt=new Date();
+  }catch(e){
+    console.error(e);
+    if(e.status===401){ syncError='Der GitHub-Schlüssel ist ungültig oder abgelaufen. Bitte neu verbinden.'; }
+    else if(e.status===404){ sync.gistId=null; saveSync(); syncError='Die Daten-Notiz wurde nicht gefunden. Tippe auf „Jetzt abgleichen“.'; }
+    else if(e.status===403){ syncError='GitHub lässt gerade keinen Zugriff zu. Versuch es in ein paar Minuten nochmal.'; }
+    else syncError='Kein Internet oder GitHub nicht erreichbar. Deine Einträge sind sicher hier gespeichert und werden später abgeglichen.';
+  }finally{
+    syncing=false; renderSync();
+    if(syncAgain){ syncAgain=false; syncNow(); }
+  }
+}
+function scheduleSync(){ if(!sync.token) return; clearTimeout(syncTimer); syncTimer=setTimeout(syncNow,700); }
+
+function renderSync(){
+  const on=!!sync.token, pill=$('syncPill');
+  $('syncOff').hidden=on; $('syncOn').hidden=!on;
+  $('nudge').hidden=on || !entries.length;
+  $('syncWho').textContent = on && sync.login ? '@'+sync.login : '';
+  let state, text;
+  if(!on){ state='off'; text='Nur auf diesem Gerät'; }
+  else if(syncing){ state='busy'; text='Wird abgeglichen …'; }
+  else if(syncError){ state='err'; text='Abgleich fehlgeschlagen'; }
+  else if(lastSyncAt){ state='ok'; text='Abgeglichen '+lastSyncAt.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}); }
+  else { state='busy'; text='Verbunden'; }
+  pill.dataset.state=state; $('syncPillText').textContent=text;
+  const info=$('syncInfo');
+  if(syncError){ info.className='lohn-status open'; info.textContent=syncError; }
+  else { info.className='lohn-status ok'; info.textContent = lastSyncAt ? 'Alle Geräte mit diesem Schlüssel sehen dieselben Einträge. Zuletzt abgeglichen um '+lastSyncAt.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr.' : 'Verbunden. Abgleich läuft …'; }
+}
+
+$('connectBtn').onclick=async()=>{
+  const token=$('tokenIn').value.trim();
+  if(!token) return toast('Bitte zuerst den GitHub-Schlüssel einfügen.');
+  $('connectBtn').disabled=true;
+  try{
+    sync={token};
+    const me=await gh('/user');
+    sync.login=me.login; saveSync(); $('tokenIn').value='';
+    await syncNow();
+    toast(syncError ? 'Verbunden, aber der Abgleich hat nicht geklappt' : 'Verbunden! Alle Geräte sind jetzt abgeglichen.');
+  }catch(e){
+    sync={}; saveSync(); renderSync();
+    toast(e.status===401 ? 'Dieser Schlüssel funktioniert nicht. Bitte prüfen.' : 'GitHub nicht erreichbar. Bitte Internet prüfen.');
+  }finally{ $('connectBtn').disabled=false; }
+};
+$('syncNowBtn').onclick=()=>syncNow();
+$('disconnectBtn').onclick=()=>{ sync={}; saveSync(); lastSyncAt=null; syncError=''; renderSync(); toast('Getrennt. Die Einträge bleiben auf diesem Gerät.'); };
+const goSync=()=>{ $('syncCard').scrollIntoView({behavior:'smooth',block:'start'}); if(!sync.token) setTimeout(()=>$('tokenIn').focus(),400); };
+$('nudgeBtn').onclick=goSync; $('syncPill').onclick=goSync;
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') syncNow(); });
+setInterval(()=>{ if(document.visibilityState==='visible') syncNow(); }, 60000);
 
 // ---- compute ----
 function compute(){
@@ -489,6 +660,7 @@ function render(){
 
   if(loaded && lastStageIdx!==null && cur>lastStageIdx){ celebrate(); toast('Ziel erreicht: '+stages[lastStageIdx].title+'!'); }
   if(loaded) lastStageIdx=cur;
+  renderSync();
 }
 
 // ---- entry form ----
@@ -550,7 +722,7 @@ function failed(err){ console.error(err); toast('Speichern hat nicht geklappt. I
 
 // ---- backup ----
 $('exportBtn').onclick=()=>{
-  const blob=new Blob([JSON.stringify({app:'unser-weg',version:1,exportedAt:new Date().toISOString(),entries,settings},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({app:'unser-weg',version:1,exportedAt:new Date().toISOString(),...snapshot()},null,2)],{type:'application/json'});
   const a=$('dl'); a.href=URL.createObjectURL(blob); a.download='unser-weg-sicherung-'+today()+'.json'; a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),2000); toast('Sicherung heruntergeladen');
 };
@@ -560,10 +732,11 @@ $('importFile').onchange=async ev=>{
   try{
     const d=JSON.parse(await f.text());
     if(!d || !Array.isArray(d.entries)) throw new Error('format');
-    const have=new Set(entries.map(e=>e.id)); let n=0;
-    for(const e of d.entries){ if(e && e.id && e.date && !have.has(e.id)){ entries.push(e); have.add(e.id); n++; } }
-    if(d.settings) settings={...settings,...d.settings};
-    saveLocal(); lastStageIdx=null; render(); lastStageIdx=compute().cur;
+    const n0=entries.length;
+    const m=merge(snapshot(),{settingsAt:0,...d});
+    entries=m.entries; deleted=m.deleted; settings=m.settings; settingsAt=m.settingsAt;
+    const n=entries.length-n0;
+    saveLocal(); lastStageIdx=null; render(); scheduleSync();
     toast(n ? n+' Einträge geladen' : 'Alles war schon da');
   }catch(e){ toast('Diese Datei ist keine gültige Sicherung.'); }
 };
@@ -585,7 +758,8 @@ function celebrate(){
 $('hDate').value=today(); $('mDate').value=today();
 loadLocal(); loaded=true;
 if(!storageOk){ $('banner').hidden=false; $('banner').textContent='Dieser Browser erlaubt gerade kein Speichern (z. B. im privaten Modus). Einträge gehen beim Schließen verloren.'; }
-render();
+render(); renderSync();
+syncNow();
 })();
 </script>
 </body>
