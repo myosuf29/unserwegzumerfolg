@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#14111C">
+<title>Unser Weg zum Erfolg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a single centered column — ring-shaped hero for the current goal, quick entry, then the whole path as a vertical timeline, stats and history. */
+:root{
+  --bg:#F5F3F8; --surface:#FFFFFF; --surface-2:#EEEAF4; --line:#DDD6E6;
+  --ink:#1F1A2C; --muted:#6D6680; --gold:#A87A22; --gold-soft:#F1E4C6;
+  --rose:#B5476E; --rose-soft:#F6DEE7; --ok:#2F7D5B; --ok-soft:#DCEFE5;
+  --track:#E6E0EE; --shadow:0 1px 2px rgba(31,26,44,.06),0 8px 24px rgba(31,26,44,.06);
+  --display:"Young Serif",Georgia,"Times New Roman",serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14111C; --surface:#1D1926; --surface-2:#262131; --line:#342D42;
+  --ink:#F1ECF7; --muted:#A79FB8; --gold:#E2B85E; --gold-soft:#3A2F18;
+  --rose:#EC86AA; --rose-soft:#3D2030; --ok:#6FCB9F; --ok-soft:#1B3328;
+  --track:#2E2839; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14111C; --surface:#1D1926; --surface-2:#262131; --line:#342D42;
+  --ink:#F1ECF7; --muted:#A79FB8; --gold:#E2B85E; --gold-soft:#3A2F18;
+  --rose:#EC86AA; --rose-soft:#3D2030; --ok:#6FCB9F; --ok-soft:#1B3328;
+  --track:#2E2839; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+img{max-width:100%}
+.wrap{max-width:980px;margin:0 auto;padding:28px 16px 64px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:-.01em}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* Header */
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.top h1{font-size:clamp(28px,5vw,40px);line-height:1.1}
+.top h1 em{font-style:normal;color:var(--rose)}
+.total{text-align:right}
+.total b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(24px,4vw,32px);color:var(--gold)}
+.banner{font-size:13px;padding:10px 14px;border-radius:12px;background:var(--gold-soft);color:var(--ink)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:28px;padding:26px;align-items:center}
+.ring{position:relative;width:200px;height:200px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .center{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring .pct{font-family:var(--display);font-size:42px;line-height:1}
+.ring .pct small{font-size:20px}
+.ring .of{font-size:12px;color:var(--muted);margin-top:4px}
+.ring circle{fill:none;stroke-width:14}
+.ring .trk{stroke:var(--track)}
+.ring .bar{stroke:url(#g);stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)}
+.gem{fill:var(--surface);stroke:var(--gold);stroke-width:3}
+.hero-info{display:grid;gap:14px;min-width:0}
+.hero-info h2{font-size:clamp(24px,4vw,32px);line-height:1.15}
+.hero-info p{margin:0;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fact{background:var(--surface-2);border-radius:12px;padding:10px 12px;min-width:0}
+.fact span{display:block;font-size:12px;color:var(--muted)}
+.fact b{font-size:17px;font-weight:700}
+
+/* Entry */
+.entry{padding:22px;display:grid;gap:16px}
+.seg{display:inline-grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:999px;padding:4px;gap:4px;width:100%;max-width:420px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:9px 12px;font-weight:600;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.field{display:grid;gap:6px;min-width:0}
+.field.wide{grid-column:1/-1}
+label{font-size:12.5px;font-weight:600;color:var(--muted)}
+input,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:16px;min-height:46px}
+textarea{resize:vertical;min-height:46px}
+input:focus,textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px var(--gold-soft)}
+.calc{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:var(--gold-soft)}
+.calc .big{font-family:var(--display);font-size:22px}
+.calc .sub{font-size:13px;color:var(--muted)}
+.btn{border:0;border-radius:12px;padding:12px 20px;font-weight:700;cursor:pointer;background:var(--ink);color:var(--bg);min-height:46px}
+.btn:hover{filter:brightness(1.1)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.err{color:var(--rose);font-size:13px;margin:0}
+
+/* Two-column area */
+.cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+.panel{padding:22px;display:grid;gap:16px}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.panel-head h3{font-size:22px}
+
+/* Timeline */
+.path{list-style:none;margin:0;padding:0;display:grid}
+.stage{display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;position:relative;padding-bottom:18px}
+.stage:last-child{padding-bottom:0}
+.stage::before{content:"";position:absolute;left:13px;top:28px;bottom:-2px;width:2px;background:var(--track)}
+.stage:last-child::before{display:none}
+.stage.done::before{background:var(--gold)}
+.dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--track);background:var(--surface);display:grid;place-items:center;position:relative;z-index:1;font-size:13px;font-weight:800;color:var(--muted)}
+.done .dot{background:var(--gold);border-color:var(--gold);color:var(--surface)}
+.now .dot{border-color:var(--rose);color:var(--rose);box-shadow:0 0 0 5px var(--rose-soft)}
+.stage-body{display:grid;gap:6px;min-width:0}
+.stage-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.stage-title{font-weight:700}
+.stage-amt{font-size:13px;color:var(--muted)}
+.stage-desc{font-size:13px;color:var(--muted)}
+.mini{height:8px;border-radius:99px;background:var(--track);overflow:hidden}
+.mini i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--rose));transition:width .8s ease}
+.done .mini i{background:var(--gold)}
+.chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--surface-2);color:var(--muted)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.now{background:var(--rose-soft);color:var(--rose)}
+.group-label{margin:6px 0 12px 42px}
+.jobrow{display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;width:fit-content}
+.jobrow input{width:20px;height:20px;min-height:0;accent-color:var(--ok)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface-2);border-radius:12px;padding:12px 14px}
+.stat span{display:block;font-size:12px;color:var(--muted)}
+.stat b{font-size:20px;font-weight:800}
+.bars{display:flex;align-items:flex-end;gap:3px;height:110px;padding-top:6px;border-bottom:1px solid var(--line)}
+.bars div{flex:1;min-width:0;background:var(--gold);opacity:.85;border-radius:4px 4px 0 0;min-height:2px}
+.bars div.zero{background:var(--track);opacity:1}
+.bars div.today{background:var(--rose);opacity:1}
+.bar-axis{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}
+
+/* History */
+.hist{list-style:none;margin:0;padding:0;display:grid}
+.day-h{font-size:12px;font-weight:700;color:var(--muted);padding:12px 0 4px;letter-spacing:.04em}
+.row{display:grid;grid-template-columns:36px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--gold-soft);color:var(--gold)}
+.ico.h{background:var(--rose-soft);color:var(--rose)}
+.ico svg{width:18px;height:18px}
+.row .t{font-weight:600}
+.row .n{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.row .a{font-weight:800;white-space:nowrap}
+.del{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:6px 8px;border-radius:8px;font-size:12.5px;white-space:nowrap}
+.del:hover{background:var(--surface-2);color:var(--rose)}
+.del.arm{background:var(--rose-soft);color:var(--rose);font-weight:700}
+.empty{color:var(--muted);font-size:14px;padding:18px;border:1px dashed var(--line);border-radius:12px;text-align:center}
+.more{justify-self:center;border:1px solid var(--line);background:transparent;border-radius:99px;padding:8px 16px;cursor:pointer;font-weight:600}
+details.settings summary{cursor:pointer;font-weight:600;color:var(--muted);list-style:none}
+details.settings summary::-webkit-details-marker{display:none}
+details.settings[open] summary{margin-bottom:12px}
+.set-row{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.set-row .field{width:160px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:50;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+footer{text-align:center;color:var(--muted);font-size:12.5px}
+.check{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer;width:fit-content}
+.check input{width:20px;height:20px;min-height:0;accent-color:var(--gold)}
+.lohn-status{padding:12px 14px;border-radius:12px;font-weight:600;font-size:14px;background:var(--surface-2)}
+.lohn-status.ok{background:var(--ok-soft);color:var(--ok)}
+.lohn-status.open{background:var(--rose-soft);color:var(--rose)}
+.lohn-status.plus{background:var(--gold-soft);color:var(--ink)}
+.row .a.exp{font-weight:600;color:var(--muted)}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--ok-soft);color:var(--ok);margin-left:6px;vertical-align:1px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.backup{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.backup .btn{flex:1 1 160px}
+
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+@media (max-width:620px){
+  .hero{grid-template-columns:1fr;justify-items:center;text-align:center;padding:22px 16px}
+  .ring{width:180px;height:180px}
+  .facts{grid-template-columns:1fr 1fr 1fr}
+  .fact{padding:9px 8px}.fact b{font-size:15px}
+  .fields{grid-template-columns:1fr 1fr}
+  .fields .field.date{grid-column:1/-1}
+  .total{text-align:left}
+  .entry,.panel{padding:18px 16px}
+  .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="confetti" hidden></canvas>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Nur für uns zwei</div>
+      <h1>Unser Weg zum <em>Erfolg</em></h1>
+    </div>
+    <div class="total">
+      <div class="eyebrow">Insgesamt gespart</div>
+      <b class="num" id="grand">0 €</b>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <section class="card hero" aria-labelledby="goalName">
+    <div class="ring">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--gold)"/><stop offset="1" stop-color="var(--rose)"/></linearGradient></defs>
+        <circle class="trk" cx="100" cy="100" r="84"/>
+        <circle class="bar" id="ringBar" cx="100" cy="100" r="84" stroke-dasharray="527.8" stroke-dashoffset="527.8"/>
+      </svg>
+      <div class="center"><div class="pct num" id="pct">0<small>%</small></div><div class="of num" id="pctOf">0 € von 10.000 €</div></div>
+    </div>
+    <div class="hero-info">
+      <div class="eyebrow" id="goalStep">Ziel 1 von 10</div>
+      <h2 id="goalName">Antrag &amp; Verlobung</h2>
+      <p id="goalDesc">Ring, Antrag und Verlobungsfeier.</p>
+      <div class="facts">
+        <div class="fact"><span>Noch offen</span><b class="num" id="fRest">10.000 €</b></div>
+        <div class="fact"><span>Ø pro Tag (30 T.)</span><b class="num" id="fAvg">0 €</b></div>
+        <div class="fact"><span>Geschafft ca.</span><b class="num" id="fEta">–</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card entry" id="entryCard" aria-labelledby="entryTitle">
+    <div class="panel-head"><h3 id="entryTitle">Heute eintragen</h3><span class="eyebrow" id="rateLabel">10 € pro Stunde</span></div>
+    <div class="seg" role="group" aria-label="Art des Eintrags">
+      <button type="button" id="modeHours" aria-pressed="true">Arbeitsstunden</button>
+      <button type="button" id="modeMoney" aria-pressed="false">Geld gespart</button>
+    </div>
+    <form id="form" novalidate>
+      <div class="fields" id="hoursFields">
+        <div class="field date"><label for="hDate">Datum (Arbeitsbeginn)</label><input type="date" id="hDate" required></div>
+        <div class="field"><label for="hStart">Von</label><input type="time" id="hStart" value="16:00" required></div>
+        <div class="field"><label for="hEnd">Bis</label><input type="time" id="hEnd" value="00:00" required></div>
+        <div class="field wide"><label for="hNote">Notiz (z. B. wo du gearbeitet hast)</label><input type="text" id="hNote" maxlength="200" placeholder="z. B. Lager, Nachtschicht"></div>
+      </div>
+      <div class="fields" id="moneyFields" hidden>
+        <div class="field date"><label for="mDate">Datum</label><input type="date" id="mDate" required></div>
+        <div class="field"><label for="mAmount">Betrag in €</label><input type="number" id="mAmount" inputmode="decimal" step="0.01" min="0" placeholder="0,00"></div>
+        <div class="field wide"><label for="mNote">Notiz</label><input type="text" id="mNote" maxlength="200" placeholder="z. B. Lohn vom Lager, Trinkgeld"></div>
+        <div class="field wide"><label class="check"><input type="checkbox" id="mIsWage" checked> Das ist Lohn für meine Arbeitsstunden</label></div>
+      </div>
+      <div style="display:grid;gap:12px;margin-top:14px">
+        <div class="calc" id="calc"><div><div class="big num" id="calcBig">8 Std</div><div class="sub num" id="calcSub">8 × 10 € = 80 €</div></div>
+          <button class="btn" type="submit" id="save">Eintragen</button></div>
+        <p class="err" id="err" hidden></p>
+      </div>
+    </form>
+  </section>
+
+  <div class="cols">
+    <section class="card panel" aria-labelledby="pathTitle">
+      <div class="panel-head"><h3 id="pathTitle">Unsere Ziele</h3><span class="eyebrow" id="doneCount">0 von 10 erreicht</span></div>
+      <ol class="path" id="path"></ol>
+    </section>
+
+    <div style="display:grid;gap:22px;min-width:0">
+      <section class="card panel" aria-labelledby="lohnTitle">
+        <div class="panel-head"><h3 id="lohnTitle">Lohn-Kontrolle</h3><span class="eyebrow">Zählt nicht zum Ziel</span></div>
+        <div class="stats">
+          <div class="stat"><span>Stunden gearbeitet</span><b class="num" id="lHours">0 Std</b></div>
+          <div class="stat"><span>Solltest bekommen</span><b class="num" id="lExpected">0 €</b></div>
+          <div class="stat"><span>Lohn bekommen</span><b class="num" id="lPaid">0 €</b></div>
+          <div class="stat"><span>Differenz</span><b class="num" id="lDiff">0 €</b></div>
+        </div>
+        <div class="lohn-status" id="lStatus">Trag deine Arbeitsstunden ein. Hier siehst du dann, ob dein Lohn stimmt.</div>
+      </section>
+
+      <section class="card panel" aria-labelledby="statTitle">
+        <div class="panel-head"><h3 id="statTitle">Überblick</h3></div>
+        <div class="stats">
+          <div class="stat"><span>Diese Woche</span><b class="num" id="sWeek">0 €</b></div>
+          <div class="stat"><span>Dieser Monat</span><b class="num" id="sMonth">0 €</b></div>
+          <div class="stat"><span>Bester Tag</span><b class="num" id="sBest">0 €</b></div>
+          <div class="stat"><span>Tage in Folge</span><b class="num" id="sStreak">0</b></div>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:8px">Letzte 30 Tage</div>
+          <div class="bars" id="bars" aria-label="Gesparter Betrag pro Tag in den letzten 30 Tagen"></div>
+          <div class="bar-axis"><span id="axFrom"></span><span id="axMax"></span><span>Heute</span></div>
+        </div>
+      </section>
+
+      <section class="card panel" aria-labelledby="histTitle">
+        <div class="panel-head"><h3 id="histTitle">Verlauf</h3><span class="eyebrow num" id="histCount">0 Einträge</span></div>
+        <ul class="hist" id="hist"></ul>
+        <button class="more" id="more" type="button" hidden>Mehr anzeigen</button>
+      </section>
+
+      <section class="card panel" id="settingsCard">
+        <details class="settings">
+          <summary>Einstellungen</summary>
+          <div class="set-row">
+            <div class="field"><label for="rate">Stundenlohn in €</label><input type="number" id="rate" min="0" step="0.5" inputmode="decimal"></div>
+            <button class="btn" type="button" id="saveRate">Speichern</button>
+          </div>
+          <p class="stage-desc" style="margin:10px 0 0">Gilt für neue Einträge. Bereits eingetragene Stunden behalten ihren Betrag.</p>
+          <div class="eyebrow" style="margin-top:20px">Sicherung</div>
+          <p class="stage-desc" style="margin:6px 0 0">Deine Daten liegen nur in diesem Browser. Lade ab und zu eine Sicherung herunter. Mit „Sicherung laden“ holst du sie auf ein anderes Gerät oder nach dem Löschen des Browsers zurück.</p>
+          <div class="backup">
+            <button class="btn ghost" type="button" id="exportBtn">Sicherung herunterladen</button>
+            <button class="btn ghost" type="button" id="importBtn">Sicherung laden</button>
+            <input type="file" id="importFile" accept="application/json,.json" hidden>
+          </div>
+        </details>
+      </section>
+    </div>
+  </div>
+  <footer>Jeder Euro bringt uns einen Schritt näher.</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<a id="dl" hidden></a>
+
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+const eur = new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const eur2 = new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:2});
+const nf = new Intl.NumberFormat('de-DE',{maximumFractionDigits:2});
+const short = v => v>=1e6 ? nf.format(v/1e6)+' Mio. €' : eur.format(v);
+
+// Stages in order. Money fills them one after another; the freedom levels measure everything saved after the wedding.
+const STAGES = [
+  {key:'antrag', title:'Antrag & Verlobung', amount:10000, desc:'Ring, Antrag und Verlobungsfeier.'},
+  {key:'wohnung', title:'Job & erste Wohnung', amount:5000, desc:'Fester Job plus Kaution und erste Miete.', job:true},
+  {key:'hochzeit', title:'Hochzeit', amount:20000, desc:'Unser großer Tag.'},
+  ...[10000,20000,50000,100000,250000,500000,1000000].map((v,i)=>({key:'f'+v, title:'Freiheit: '+short(v), level:v, freedom:true, desc: i===0?'Das erste Polster für unsere Freiheit.':'Finanzielle Freiheit, Stufe '+(i+1)+'.'}))
+];
+const BASE = STAGES.filter(s=>!s.freedom).reduce((a,s)=>a+s.amount,0);
+
+let entries = [], settings = {rate:10, jobFound:false};
+let mode = 'hours', histLimit = 25, lastStageIdx = null, loaded = false;
+// Only real money counts toward the goals; worked hours are tracked separately as expected wage.
+const isMoney = e => e.type === 'money';
+
+// ---- dates ----
+const pad = n => String(n).padStart(2,'0');
+const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today = () => iso(new Date());
+const parse = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
+const dayDiff = (a,b) => Math.round((parse(a)-parse(b))/864e5);
+const fmtDay = s => { const d=dayDiff(today(),s); if(d===0) return 'Heute'; if(d===1) return 'Gestern';
+  return parse(s).toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long',year: parse(s).getFullYear()===new Date().getFullYear()?undefined:'numeric'}); };
+
+function hoursBetween(a,b){
+  if(!a||!b) return 0;
+  const [ah,am]=a.split(':').map(Number), [bh,bm]=b.split(':').map(Number);
+  let m = (bh*60+bm)-(ah*60+am); if(m<=0) m+=1440;
+  return Math.round(m/60*100)/100;
+}
+
+// ---- storage: this browser only (localStorage) ----
+const LKEY='unser-weg-v1';
+let storageOk = true;
+function loadLocal(){ try{ const d=JSON.parse(localStorage.getItem(LKEY)||'{}'); entries=Array.isArray(d.entries)?d.entries:[]; settings={...settings,...(d.settings||{})}; }catch(e){ storageOk=false; } }
+function saveLocal(){ try{ localStorage.setItem(LKEY, JSON.stringify({entries,settings})); }catch(e){ storageOk=false; throw e; } }
+const newId = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+async function addEntry(e){ entries.push({...e,id:newId()}); saveLocal(); render(); }
+async function removeEntry(id){ entries=entries.filter(x=>x.id!==id); saveLocal(); render(); }
+async function saveSettings(patch){ settings={...settings,...patch}; saveLocal(); render(); }
+
+// ---- compute ----
+function compute(){
+  const total = entries.filter(isMoney).reduce((a,e)=>a+(+e.amount||0),0);
+  let start=0; const out=[];
+  for(const s of STAGES){
+    let saved,target,done;
+    if(s.freedom){ const fund=Math.max(0,total-BASE); saved=Math.min(fund,s.level); target=s.level; done=fund>=s.level; }
+    else { saved=Math.min(Math.max(total-start,0),s.amount); target=s.amount; done=saved>=s.amount && (!s.job||settings.jobFound); start+=s.amount; }
+    out.push({...s,saved,target,done});
+  }
+  let cur = out.findIndex(s=>!s.done); if(cur<0) cur=out.length-1;
+  return {total,stages:out,cur};
+}
+
+// ---- render ----
+const ICON_H='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const ICON_M='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5-1.3-3.3-2-5.3-2C9.4 3 6 6.6 6 12s3.4 9 7.7 9c2 0 3.8-.7 5.3-2"/><path d="M3 10h10M3 14h10"/></svg>';
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function render(){
+  const {total,stages,cur} = compute();
+  const s = stages[cur];
+  $('grand').textContent = eur2.format(total);
+
+  const p = s.target ? s.saved/s.target : 0;
+  $('ringBar').style.strokeDashoffset = 527.8*(1-Math.min(p,1));
+  $('pct').innerHTML = Math.floor(p*100)+'<small>%</small>';
+  $('pctOf').textContent = eur.format(s.saved)+' von '+eur.format(s.target);
+  $('goalStep').textContent = 'Ziel '+(cur+1)+' von '+stages.length + (s.freedom?' · Finanzielle Freiheit':'');
+  $('goalName').textContent = s.title;
+  const jobPending = s.job && s.saved>=s.target && !settings.jobFound;
+  $('goalDesc').textContent = jobPending ? 'Das Geld ist zusammen. Jetzt fehlt nur noch der feste Job.' : s.desc;
+  const rest = Math.max(s.target-s.saved,0);
+  $('fRest').textContent = eur.format(rest);
+
+  const t=today(); let last30=0;
+  for(const e of entries){ if(!isMoney(e)) continue; const d=dayDiff(t,e.date); if(d>=0&&d<30) last30+=+e.amount||0; }
+  const avg = last30/30;
+  $('fAvg').textContent = eur.format(avg);
+  if(rest<=0) $('fEta').textContent = jobPending?'Job fehlt':'Erreicht';
+  else if(avg<=0) $('fEta').textContent = '–';
+  else { const days=Math.ceil(rest/avg); const d=new Date(); d.setDate(d.getDate()+days);
+    $('fEta').textContent = days>3650?'> 10 Jahre':d.toLocaleDateString('de-DE',{month:'short',year:'numeric'}); }
+
+  // timeline
+  const done = stages.filter(x=>x.done).length;
+  $('doneCount').textContent = done+' von '+stages.length+' erreicht';
+  let html='';
+  stages.forEach((st,i)=>{
+    if(i===0) html+='<li class="eyebrow group-label">Unsere Zukunft</li>';
+    if(st.freedom && !stages[i-1].freedom) html+='<li class="eyebrow group-label" style="margin-top:4px">Finanzielle Freiheit</li>';
+    const cls = st.done?'done':(i===cur?'now':'');
+    const chip = st.done?'<span class="chip ok">Erreicht</span>':(i===cur?'<span class="chip now">Aktuell</span>':'<span class="chip">Später</span>');
+    const pw = st.target? Math.min(st.saved/st.target,1)*100 : 0;
+    html+=`<li class="stage ${cls}"><div class="dot">${st.done?'✓':i+1}</div><div class="stage-body">
+      <div class="stage-top"><span class="stage-title">${esc(st.title)}</span>${chip}</div>
+      <div class="mini"><i style="width:${pw}%"></i></div>
+      <div class="stage-top"><span class="stage-amt num">${eur.format(st.saved)} / ${eur.format(st.target)}</span><span class="stage-desc">${esc(st.desc)}</span></div>
+      ${st.job?`<label class="jobrow"><input type="checkbox" id="jobBox" ${settings.jobFound?'checked':''}> Fester Job gefunden</label>`:''}
+    </div></li>`;
+  });
+  $('path').innerHTML = html;
+  const jb=$('jobBox'); if(jb) jb.onchange=()=>saveSettings({jobFound:jb.checked}).then(()=>toast(jb.checked?'Glückwunsch zum Job!':'Gespeichert')).catch(failed);
+
+  // stats
+  const now=new Date(); const wd=(now.getDay()+6)%7; let week=0, month=0, hrs=0, expected=0, paid=0;
+  const mPrefix=t.slice(0,7);
+  const byDay={};
+  for(const e of entries){
+    const a=+e.amount||0;
+    if(!isMoney(e)){ hrs+=+e.hours||0; expected+=a; continue; }
+    if(e.wage) paid+=a;
+    const d=dayDiff(t,e.date);
+    if(d>=0&&d<=wd) week+=a;
+    if(e.date.startsWith(mPrefix)) month+=a;
+    byDay[e.date]=(byDay[e.date]||0)+a;
+  }
+  $('sWeek').textContent=eur.format(week); $('sMonth').textContent=eur.format(month);
+  $('sBest').textContent=eur.format(Math.max(0,...Object.values(byDay)));
+
+  // wage check: expected from hours vs. wage actually received
+  const diff=Math.round((expected-paid)*100)/100;
+  $('lHours').textContent=nf.format(hrs)+' Std';
+  $('lExpected').textContent=eur2.format(expected);
+  $('lPaid').textContent=eur2.format(paid);
+  $('lDiff').textContent=(diff>0?'−':diff<0?'+':'')+eur2.format(Math.abs(diff));
+  const ls=$('lStatus');
+  if(!hrs && !paid){ ls.className='lohn-status'; ls.textContent='Trag deine Arbeitsstunden ein. Hier siehst du dann, ob dein Lohn stimmt.'; }
+  else if(Math.abs(diff)<1){ ls.className='lohn-status ok'; ls.textContent='Passt: Du hast genau das bekommen, was du für deine Stunden bekommen solltest.'; }
+  else if(diff>0){ ls.className='lohn-status open'; ls.textContent='Noch offen: '+eur2.format(diff)+'. So viel Lohn fehlt noch für deine eingetragenen Stunden.'; }
+  else { ls.className='lohn-status plus'; ls.textContent='Du hast '+eur2.format(-diff)+' mehr bekommen, als deine Stunden ergeben. Prüf, ob Stunden fehlen oder es Zuschläge waren.'; }
+  let streak=0; const cd=new Date(); if(!byDay[t]) cd.setDate(cd.getDate()-1);
+  while(byDay[iso(cd)]>0){ streak++; cd.setDate(cd.getDate()-1); }
+  $('sStreak').textContent=streak+(streak===1?' Tag':' Tage');
+
+  const vals=[]; for(let i=29;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); vals.push([iso(d),byDay[iso(d)]||0]); }
+  const max=Math.max(...vals.map(v=>v[1]),1);
+  $('bars').innerHTML = vals.map(([d,v],i)=>`<div class="${v?'':'zero'} ${i===29?'today':''}" style="height:${v?Math.max(v/max*100,4):2}%" title="${fmtDay(d)}: ${eur.format(v)}"></div>`).join('');
+  $('axFrom').textContent = parse(vals[0][0]).toLocaleDateString('de-DE',{day:'numeric',month:'short'});
+  $('axMax').textContent = 'Höchster Tag: '+eur.format(max===1&&!vals.some(v=>v[1])?0:max);
+
+  // history
+  const sorted=[...entries].sort((a,b)=> b.date.localeCompare(a.date) || (b.createdAt||0)-(a.createdAt||0));
+  $('histCount').textContent = entries.length+(entries.length===1?' Eintrag':' Einträge');
+  if(!sorted.length){
+    $('hist').innerHTML = `<li class="empty">${loaded?'Noch keine Einträge. Trag oben deine ersten Stunden oder deinen ersten gesparten Betrag ein.':'Einträge werden geladen …'}</li>`;
+  } else {
+    let h='', lastDay='';
+    for(const e of sorted.slice(0,histLimit)){
+      if(e.date!==lastDay){ h+=`<li class="day-h">${esc(fmtDay(e.date))}</li>`; lastDay=e.date; }
+      const isH=e.type==='hours';
+      const title = isH ? `${nf.format(e.hours)} Std · ${esc(e.start)}–${esc(e.end)}` : 'Gespart'+(e.wage?'<span class="tag">Lohn</span>':'');
+      const amt = isH ? `<div class="a exp num" title="Erwarteter Lohn, zählt nicht zum Ziel">≈ ${eur2.format(e.amount)}</div>` : `<div class="a num">+${eur2.format(e.amount)}</div>`;
+      h+=`<li class="row"><div class="ico ${isH?'h':''}">${isH?ICON_H:ICON_M}</div>
+        <div style="min-width:0"><div class="t num">${title}</div>${e.note?`<div class="n">${esc(e.note)}</div>`:''}</div>
+        ${amt}
+        <button class="del" type="button" data-id="${esc(e.id)}">Löschen</button></li>`;
+    }
+    $('hist').innerHTML=h;
+  }
+  $('more').hidden = sorted.length<=histLimit;
+
+  $('rateLabel').textContent = eur2.format(settings.rate)+' pro Stunde';
+  if(document.activeElement!==$('rate')) $('rate').value = settings.rate;
+  updateCalc();
+
+  if(loaded && lastStageIdx!==null && cur>lastStageIdx){ celebrate(); toast('Ziel erreicht: '+stages[lastStageIdx].title+'!'); }
+  if(loaded) lastStageIdx=cur;
+}
+
+// ---- entry form ----
+function setMode(m){
+  mode=m; $('modeHours').setAttribute('aria-pressed',m==='hours'); $('modeMoney').setAttribute('aria-pressed',m==='money');
+  $('hoursFields').hidden = m!=='hours'; $('moneyFields').hidden = m!=='money'; $('err').hidden=true; updateCalc();
+}
+function updateCalc(){
+  if(mode==='hours'){
+    const h=hoursBetween($('hStart').value,$('hEnd').value);
+    $('calcBig').textContent = nf.format(h)+' Std';
+    $('calcSub').textContent = nf.format(h)+' × '+eur2.format(settings.rate)+' = '+eur2.format(h*settings.rate)+' erwartet · zählt nicht zum Ziel';
+  } else {
+    const v=parseFloat(String($('mAmount').value).replace(',','.'))||0;
+    $('calcBig').textContent = eur2.format(v);
+    $('calcSub').textContent = 'zählt direkt zum Ziel';
+  }
+}
+function showErr(m){ $('err').textContent=m; $('err').hidden=false; }
+
+$('modeHours').onclick=()=>setMode('hours');
+$('modeMoney').onclick=()=>setMode('money');
+['hStart','hEnd','mAmount'].forEach(id=>$(id).addEventListener('input',updateCalc));
+
+$('form').addEventListener('submit', async ev=>{
+  ev.preventDefault(); $('err').hidden=true;
+  let e;
+  if(mode==='hours'){
+    const date=$('hDate').value, start=$('hStart').value, end=$('hEnd').value;
+    if(!date||!start||!end) return showErr('Bitte Datum, Beginn und Ende ausfüllen.');
+    const hours=hoursBetween(start,end);
+    e={type:'hours',date,start,end,hours,rate:settings.rate,amount:Math.round(hours*settings.rate*100)/100,note:$('hNote').value.trim()};
+  } else {
+    const date=$('mDate').value, amount=Math.round((parseFloat(String($('mAmount').value).replace(',','.'))||0)*100)/100;
+    if(!date) return showErr('Bitte ein Datum wählen.');
+    if(amount<=0) return showErr('Bitte einen Betrag größer als 0 € eintragen.');
+    e={type:'money',date,amount,wage:$('mIsWage').checked,note:$('mNote').value.trim()};
+  }
+  e.createdAt=Date.now();
+  $('save').disabled=true;
+  try{
+    await addEntry(e);
+    toast(e.type==='hours' ? nf.format(e.hours)+' Std eingetragen' : '+'+eur2.format(e.amount)+' eingetragen');
+    $('hNote').value=''; $('mNote').value=''; $('mAmount').value=''; updateCalc();
+  }catch(err){ failed(err); }
+  finally{ $('save').disabled=false; }
+});
+
+$('hist').addEventListener('click', ev=>{
+  const b=ev.target.closest('.del'); if(!b) return;
+  if(!b.classList.contains('arm')){ b.classList.add('arm'); b.textContent='Wirklich löschen?'; setTimeout(()=>{ if(b.isConnected){b.classList.remove('arm'); b.textContent='Löschen';} },4000); return; }
+  b.disabled=true; removeEntry(b.dataset.id).then(()=>toast('Eintrag gelöscht')).catch(failed);
+});
+$('more').onclick=()=>{ histLimit+=50; render(); };
+$('saveRate').onclick=()=>{ const v=parseFloat(String($('rate').value).replace(',','.')); if(!(v>=0)) return toast('Bitte einen gültigen Stundenlohn eingeben.');
+  saveSettings({rate:v}).then(()=>toast('Stundenlohn gespeichert')).catch(failed); };
+
+function failed(err){ console.error(err); toast('Speichern hat nicht geklappt. Ist der private Modus an? Dann bitte normal öffnen.'); }
+
+// ---- backup ----
+$('exportBtn').onclick=()=>{
+  const blob=new Blob([JSON.stringify({app:'unser-weg',version:1,exportedAt:new Date().toISOString(),entries,settings},null,2)],{type:'application/json'});
+  const a=$('dl'); a.href=URL.createObjectURL(blob); a.download='unser-weg-sicherung-'+today()+'.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000); toast('Sicherung heruntergeladen');
+};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async ev=>{
+  const f=ev.target.files[0]; ev.target.value=''; if(!f) return;
+  try{
+    const d=JSON.parse(await f.text());
+    if(!d || !Array.isArray(d.entries)) throw new Error('format');
+    const have=new Set(entries.map(e=>e.id)); let n=0;
+    for(const e of d.entries){ if(e && e.id && e.date && !have.has(e.id)){ entries.push(e); have.add(e.id); n++; } }
+    if(d.settings) settings={...settings,...d.settings};
+    saveLocal(); lastStageIdx=null; render(); lastStageIdx=compute().cur;
+    toast(n ? n+' Einträge geladen' : 'Alles war schon da');
+  }catch(e){ toast('Diese Datei ist keine gültige Sicherung.'); }
+};
+let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2600); }
+
+// ---- confetti ----
+function celebrate(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c=$('confetti'), x=c.getContext('2d'); c.hidden=false; c.width=innerWidth; c.height=innerHeight;
+  const cs=getComputedStyle(document.documentElement), cols=[cs.getPropertyValue('--gold'),cs.getPropertyValue('--rose'),cs.getPropertyValue('--ok')];
+  const ps=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.4,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,r:Math.random()*6,s:4+Math.random()*5,c:cols[Math.floor(Math.random()*3)]}));
+  const t0=performance.now();
+  (function f(t){ x.clearRect(0,0,c.width,c.height);
+    for(const p of ps){ p.x+=p.vx; p.y+=p.vy; p.r+=.1; x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.fillStyle=p.c; x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); x.restore(); }
+    if(t-t0<3200) requestAnimationFrame(f); else { x.clearRect(0,0,c.width,c.height); c.hidden=true; } })(t0);
+}
+
+// ---- boot ----
+$('hDate').value=today(); $('mDate').value=today();
+loadLocal(); loaded=true;
+if(!storageOk){ $('banner').hidden=false; $('banner').textContent='Dieser Browser erlaubt gerade kein Speichern (z. B. im privaten Modus). Einträge gehen beim Schließen verloren.'; }
+render();
+})();
+</script>
+</body>
+</html>
